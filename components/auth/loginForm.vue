@@ -1,0 +1,90 @@
+<template>
+  <b-form @submit="loginUser" v-if="this.$store.state.show">
+      <b-form-group
+        id="input-group-email"
+        label="Email address:"
+        label-for="input-email"
+      >
+        <b-form-input
+          id="input-email"
+          v-model="emailInput"
+          type="email"
+          placeholder="Enter email"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-password" label="Password:" label-for="input-password">
+        <b-form-input
+          id="input-password"
+          type="password"
+          v-model="passwordInput"
+          placeholder="Enter Password"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-button type="submit" variant="primary">Login</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+</template>
+
+<script lang="ts">
+
+interface User {
+  email: string
+  password: string
+}
+
+export default {
+ computed: {
+    emailInput: {
+      get() {
+        return this.$store.state.form.email
+      },
+      set(newValue) {
+        this.$store.dispatch('setEmail', newValue)
+      }
+    },
+    passwordInput: {
+      get() {
+        return this.$store.state.form.password
+      },
+      set(newValue) {
+        this.$store.dispatch('setPassword', newValue)
+      }
+    }
+  },
+  methods: {
+    loginUser(event: any) {
+      event.preventDefault()
+      if (
+        this.$store.state.users.some(
+          (user: User) =>
+            user.email === this.$store.state.form.email &&
+            user.password === this.$store.state.form.password
+        )
+      ) {
+        localStorage.setItem('loggedIn', JSON.stringify(this.$store.state.form))
+        this.$router.push('/')
+      } else {
+        alert('wrong email or password')
+      }
+    },
+    // onReset(event: any) { // still working without the function???!!!!!
+    //   event.preventDefault()
+    //   // Reset our form values
+    //   this.form.email = ''
+    //   this.form.password = ''
+    //   // Trick to reset/clear native browser form validation state
+    //   this.show = false
+    //   this.$nextTick(() => {
+    //     this.show = true
+    //   })
+    // },
+  },
+}
+</script>
+
+<style scoped>
+
+</style>
