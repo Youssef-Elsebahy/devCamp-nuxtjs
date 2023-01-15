@@ -1,15 +1,15 @@
 interface User {
+  username: string
   email: string
   password: string
 }
 
-export const state = (): {users: User[], form: User; show: boolean} => ({
+export const state = (): {users: User[], form: User} => ({
   users: [
-    { email: 'yusuf@joe', password: '1234' },
-    { email: 'ahmed@ah', password: '1234' },
+    { email: 'yusuf@joe', password: '1234', username: 'yusuf' },
+    { email: 'ahmed@ah', password: '1234', username: 'ahmed' },
   ],
-  form: { email: '', password: '' },
-  show: true,
+  form: { email: '', password: '', username: '' },
 })
 
 
@@ -19,19 +19,43 @@ export const state = (): {users: User[], form: User; show: boolean} => ({
 // }
 
 export const mutations = {
-  setEmail(state: any, newValue: string) {
-    state.form.email = newValue
+  setUsername(state: any, newUsername: string) {
+    state.form.username = newUsername
   },
-  setPassword(state: any, newValue: string) {
-    state.form.password = newValue
+  setEmail(state: any, newEmail: string) {
+    state.form.email = newEmail
+  },
+  setPassword(state: any, newPassword: string) {
+    state.form.password = newPassword
+  },
+  UpdateUsersList(state: any, users: User) {
+    state.users = users
+  },
+  emptyForm(state: any, {}: object) {
+    state.form = {}
+  },
+  addNewUser(state: any, signedUpUser: User) {
+    state.users.push(signedUpUser)
   }
 }
 
 export const actions: any = {
- setEmail({ commit }: any, newValue: string) {
-  commit('setEmail', newValue)
+  setUsername({ commit }: any, newUsername: string) {
+    commit('setUsername', newUsername)
+   },
+ setEmail({ commit }: any, newEmail: string) {
+  commit('setEmail', newEmail)
  },
- setPassword({ commit }: any, newValue: string) {
-  commit('setPassword', newValue)
+ setPassword({ commit }: any, newPassword: string) {
+  commit('setPassword', newPassword)
+ },
+ UpdateUsersList({ commit }: any, users: User) {
+  commit('UpdateUsersList', users)
+ },
+ emptyForm({ commit }: any, {}:object) {
+  commit('emptyForm', {})
+ },
+ addNewUser({ commit }: any, signedUpUser: User) {
+  commit('addNewUser', signedUpUser)
  }
 }

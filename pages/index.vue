@@ -1,6 +1,6 @@
 <template>
-<div>
-  <h1>welcome to mome page</h1>
+<div class="container">
+  <b-button @click="logout" class="my-3" variant="primary">Log out</b-button>
   <Tutorial />
 </div>
 </template>
@@ -11,5 +11,12 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'IndexPage',
   layout: 'default',
+  methods: {
+    logout() {
+      localStorage.removeItem("loggedIn")
+      this.$router.push('/auth')
+    }
+  }
 })
 </script>
+
