@@ -1,5 +1,6 @@
 <template>
-  <b-form @submit="loginUser" v-if="this.$store.state.show">
+  <b-form @submit="loginUser">
+    <h1 class="text-center">Login Form</h1>
       <b-form-group
         id="input-group-email"
         label="Email address:"
@@ -29,13 +30,13 @@
 </template>
 
 <script lang="ts">
-
+import Vue from 'vue'
 interface User {
   email: string
   password: string
 }
 
-export default {
+export default Vue.extend( {
  computed: {
     emailInput: {
       get() {
@@ -64,8 +65,10 @@ export default {
             user.password === this.$store.state.form.password
         )
       ) {
-        localStorage.setItem('loggedIn', JSON.stringify(this.$store.state.form))
+        let loggedInUser = this.$store.state.users.filter((user: User) => user.email === this.$store.state.form.email)
+        localStorage.setItem('loggedIn', JSON.stringify(loggedInUser))
         this.$router.push('/')
+        this.$store.dispatch('emptyForm', {})
       } else {
         alert('wrong email or password')
       }
@@ -82,7 +85,13 @@ export default {
     //   })
     // },
   },
-}
+  mounted() {
+        if (localStorage.getItem('users')) {
+            let users= JSON.parse(localStorage.getItem('users') || '{}')
+           this.$store.dispatch('UpdateUsersList', users)
+        }
+  }
+})
 </script>
 
 <style scoped>
