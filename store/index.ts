@@ -12,12 +12,6 @@ export const state = (): {users: User[], form: User} => ({
   form: { email: '', password: '', username: '' },
 })
 
-
-
-// export const getters = {
-
-// }
-
 export const mutations = {
   setUsername(state: any, newUsername: string) {
     state.form.username = newUsername
@@ -37,25 +31,4 @@ export const mutations = {
   addNewUser(state: any, signedUpUser: User) {
     state.users.push(signedUpUser)
   }
-}
-
-export const actions: any = {
-  setUsername({ commit }: any, newUsername: string) {
-    commit('setUsername', newUsername)
-   },
- setEmail({ commit }: any, newEmail: string) {
-  commit('setEmail', newEmail)
- },
- setPassword({ commit }: any, newPassword: string) {
-  commit('setPassword', newPassword)
- },
- UpdateUsersList({ commit }: any, users: User) {
-  commit('UpdateUsersList', users)
- },
- emptyForm({ commit }: any, {}:object) {
-  commit('emptyForm', {})
- },
- addNewUser({ commit }: any, signedUpUser: User) {
-  commit('addNewUser', signedUpUser)
- }
 }

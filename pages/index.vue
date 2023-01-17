@@ -14,9 +14,10 @@ export default Vue.extend({
   methods: {
     logout() {
       localStorage.removeItem("loggedIn")
-      this.$router.push('/auth')
+      this.$router.push('/auth/login')
     }
   }
 })
 </script>
+
 

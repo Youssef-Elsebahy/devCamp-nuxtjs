@@ -1,4 +1,5 @@
 <template>
+<div class="container my-5 w-50 h-50 bg-light p-4">
   <b-form @submit="loginUser">
     <h1 class="text-center">Login Form</h1>
       <b-form-group
@@ -27,6 +28,8 @@
       <b-button type="submit" variant="primary">Login</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
+      <b-button class="mt-3" variant="info" @click="toggleForm()">Sign Up</b-button>
+    </div>
 </template>
 
 <script lang="ts">
@@ -43,7 +46,7 @@ export default Vue.extend( {
         return this.$store.state.form.email
       },
       set(newValue) {
-        this.$store.dispatch('setEmail', newValue)
+        this.$store.commit('setEmail', newValue)
       }
     },
     passwordInput: {
@@ -51,7 +54,7 @@ export default Vue.extend( {
         return this.$store.state.form.password
       },
       set(newValue) {
-        this.$store.dispatch('setPassword', newValue)
+        this.$store.commit('setPassword', newValue)
       }
     }
   },
@@ -68,11 +71,15 @@ export default Vue.extend( {
         let loggedInUser = this.$store.state.users.filter((user: User) => user.email === this.$store.state.form.email)
         localStorage.setItem('loggedIn', JSON.stringify(loggedInUser))
         this.$router.push('/')
-        this.$store.dispatch('emptyForm', {})
+        this.$store.commit('emptyForm', {})
       } else {
         alert('wrong email or password')
       }
     },
+     toggleForm() {
+    this.$store.commit('emptyForm', {})
+    this.$router.push('/auth/signUp')
+  }
     // onReset(event: any) { // still working without the function???!!!!!
     //   event.preventDefault()
     //   // Reset our form values
@@ -88,12 +95,8 @@ export default Vue.extend( {
   mounted() {
         if (localStorage.getItem('users')) {
             let users= JSON.parse(localStorage.getItem('users') || '{}')
-           this.$store.dispatch('UpdateUsersList', users)
+           this.$store.commit('UpdateUsersList', users)
         }
   }
 })
 </script>
-
-<style scoped>
-
-</style>
