@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container my-5 w-50 h-50 bg-light p-4">
   <b-form @submit="signUpUser">
     <h1 class="text-center">SignUp Form</h1>
     <b-form-group
@@ -65,7 +65,7 @@ export default Vue.extend({
         return this.$store.state.form.username
       },
       set(newUsername) {
-        this.$store.dispatch('setUsername', newUsername)
+        this.$store.commit('setUsername', newUsername)
       },
     },
     emailInput: {
@@ -73,7 +73,7 @@ export default Vue.extend({
         return this.$store.state.form.email
       },
       set(newEmail) {
-        this.$store.dispatch('setEmail', newEmail)
+        this.$store.commit('setEmail', newEmail)
       },
     },
     passwordInput: {
@@ -81,7 +81,7 @@ export default Vue.extend({
         return this.$store.state.form.password
       },
       set(newPassword) {
-        this.$store.dispatch('setPassword', newPassword)
+        this.$store.commit('setPassword', newPassword)
       },
     },
   },
@@ -90,35 +90,35 @@ export default Vue.extend({
       event.preventDefault()
       if (
         this.$store.state.users.some(
-          (user: User) => user.email === this.$store.state.form.email
-        )
-      ) {
-        alert('this email is used already')
-      } else if (
-        this.$store.state.users.some(
           (user: User) => user.username === this.$store.state.form.username
         )
       ) {
         alert('this username is used already')
+      } else if (
+        this.$store.state.users.some(
+          (user: User) => user.email === this.$store.state.form.email
+        )
+      ) {
+        alert('this email is used already')
       } else {
         const signedUpUser = this.$store.state.form
-        this.$store.dispatch('addNewUser', signedUpUser)
+        this.$store.commit('addNewUser', signedUpUser)
         localStorage.setItem('users', JSON.stringify(this.$store.state.users))
         localStorage.setItem('loggedIn', JSON.stringify(this.$store.state.form))
         this.$router.push('/')
-        this.$store.dispatch('emptyForm', {})
+        this.$store.commit('emptyForm', {})
         alert('signed up successfully')
       }
     },
   toggleForm() {
-    this.$store.dispatch('emptyForm', {})
-    this.$emit('toggleForm')
+    this.$store.commit('emptyForm', {})
+    this.$router.push('/auth/login')
   }
   },
   mounted() {
         if (localStorage.getItem('users')) {
             let users= JSON.parse(localStorage.getItem('users') || '{}')
-           this.$store.dispatch('UpdateUsersList', users)
+           this.$store.commit('UpdateUsersList', users)
         }
   }
 })

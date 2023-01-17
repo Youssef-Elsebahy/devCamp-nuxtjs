@@ -5,8 +5,8 @@ export default function ({ route, redirect }: {route: any, redirect: any}) {
       redirect('/')
     }
   } else { // logged out user
-    if (route.path !== '/auth') {
-      redirect('/auth')
+    if (!route.path.includes('/auth')) {
+      redirect('/auth/login')
     }
   }
 }
